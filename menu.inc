@@ -9,37 +9,32 @@
 
 $menuEntries = Array(
     Array(
-        'text' => 'Scoreboard Status',
+        'text' => 'Scoreboard - Status',
         'type' => 'status',
         'page' => 'status.php',
         'wrap' => 1
     ),
-#   Array(
-#       'text' => 'Scoreboard Content Setup',
-#       'type' => 'content',
-#       'page' => 'content.php',
-#       'wrap' => 1
-#   ),
-#   Array(
-#       'text' => 'Scoreboard Output',
-#       'type' => 'output',
-#       'page' => 'output.php',
-#       'wrap' => 1
-#   ),
+    # Uncomment or add more menu items as needed:
+    # Array(
+    #     'text' => 'Scoreboard - Content Setup',
+    #     'type' => 'content',
+    #     'page' => 'content.php',
+    #     'wrap' => 1
+    # ),
+    # Array(
+    #     'text' => 'Scoreboard - Output',
+    #     'type' => 'output',
+    #     'page' => 'output.php',
+    #     'wrap' => 1
+    # ),
     Array(
-        'text' => 'Scoreboard Help',
+        'text' => 'Scoreboard - Help',
         'type' => 'help',
         'page' => 'help/help.php',
         'wrap' => 1
     ),
     Array(
-        'text' => 'Scoreboard Home',
-        'type' => 'help',
-        'page' => 'https://github.com/sharkboy0555/scoreboard-plugin',
-        'wrap' => 1
-    ),
-    Array(
-        'text' => 'Scoreboard About',
+        'text' => 'Scoreboard - About',
         'type' => 'help',
         'page' => 'about.php',
         'wrap' => 1
@@ -72,4 +67,5 @@ foreach ($menuEntries as $entry)
             $plugin, $entry['page'], $nopage, $entry['text']);
     }
 }
+
 ?>
