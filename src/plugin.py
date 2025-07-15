@@ -5,7 +5,7 @@ from flask import request
 
 class ScoreboardPlugin(fppplugin.FPPPlugin):
     def __init__(self):
-        super().__init__("Scoreboard")
+        super(ScoreboardPlugin, self).__init__("scoreboard-plugin")
         self.scoreboard_data = {
             "machine": "",
             "order": "",
@@ -26,10 +26,14 @@ class ScoreboardPlugin(fppplugin.FPPPlugin):
 
     def update_data(self):
         try:
-            new_data = request.get_json()
+            new_data = request.get_json(force=True)
+            if not new_data:
+                return ("No JSON data received", 400)
             self.scoreboard_data.update(new_data)
+            self.log.info(f"Updated scoreboard data: {self.scoreboard_data}")
             return ("OK", 200)
         except Exception as e:
+            self.log.error(f"Error updating data: {str(e)}")
             return (f"Error: {str(e)}", 400)
 
     def get_data(self):
