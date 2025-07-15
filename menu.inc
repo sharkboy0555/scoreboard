@@ -1,12 +1,75 @@
 <?php
-$pluginName = "scoreboard";  // must match your plugin folder name (case-sensitive)
 
-$menu = array();
+# $menuEntries is an array of menu entries for this plugin
+# text - menu entry text
+# type - status/content/output/help (main menu area)
+# page - PHP file to display for this menu item
+# wrap - 0/1 to hide or display the FPP header, menu, and footer on this page.
+#        This does not apply for pages which begin with http:// or https://
 
-// This will create a top-level "Scoreboard" section in the FPP menu
-$menu['Scoreboard'] = array(
-    'index.html' => 'Dashboard'  // points to www/index.html
+$menuEntries = Array(
+    Array(
+        'text' => 'Scoreboard Status',
+        'type' => 'status',
+        'page' => 'status.php',
+        'wrap' => 1
+    ),
+#   Array(
+#       'text' => 'Scoreboard Content Setup',
+#       'type' => 'content',
+#       'page' => 'content.php',
+#       'wrap' => 1
+#   ),
+#   Array(
+#       'text' => 'Scoreboard Output',
+#       'type' => 'output',
+#       'page' => 'output.php',
+#       'wrap' => 1
+#   ),
+    Array(
+        'text' => 'Scoreboard Help',
+        'type' => 'help',
+        'page' => 'help/help.php',
+        'wrap' => 1
+    ),
+    Array(
+        'text' => 'Scoreboard Home',
+        'type' => 'help',
+        'page' => 'https://github.com/sharkboy0555/scoreboard-plugin',
+        'wrap' => 1
+    ),
+    Array(
+        'text' => 'Scoreboard About',
+        'type' => 'help',
+        'page' => 'about.php',
+        'wrap' => 1
+    )
 );
 
-return $menu;
+##############################################################################
+# Display the menu entries for this plugin.
+#
+# It is expected that two variables are already set:
+# $plugin - contains the name of the current plugin directory/repoName
+# $menu - contains the name of the menu section/type
+foreach ($menuEntries as $entry)
+{
+    if ($entry['type'] != $menu)
+        continue;
+
+    if (preg_match('/^http.?:\/\//', $entry['page']))
+    {
+        printf("<li><a href='%s' target='_blank'>%s</a></li>\n",
+            $entry['page'], $entry['text']);
+    }
+    else
+    {
+        $nopage = '';
+        if (isset($entry['wrap']) && ($entry['wrap'] == 0))
+            $nopage = '&nopage=1';
+
+        printf("<li><a href='plugin.php?plugin=%s&page=%s%s'>%s</a></li>\n",
+            $plugin, $entry['page'], $nopage, $entry['text']);
+    }
+}
 ?>
