@@ -1,0 +1,11 @@
+{
+  "machine": "123",
+  "order": "A456",
+  "part": "XYZ-7",
+  "setup": "12",
+  "goal": "15",
+  "currentQty": "300",
+  "orderQty": "500",
+  "bphShift": "40",
+  "bphStandard": "50"
+}
