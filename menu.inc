@@ -3,30 +3,22 @@
 # $menuEntries is an array of menu entries for this plugin
 # text - menu entry text
 # type - status/content/output/help (main menu area)
-# page - PHP file to display for this menu item
+# page - PHP or HTML file to display for this menu item
 # wrap - 0/1 to hide or display the FPP header, menu, and footer on this page.
-#        This does not apply for pages which begin with http:// or https://
 
 $menuEntries = Array(
     Array(
         'text' => 'Scoreboard Config',
         'type' => 'status',
+        'page' => 'scoreboard.html',  // <--- this is your main UI
+        'wrap' => 1
+    ),
+    Array(
+        'text' => 'Scoreboard Status (JSON)',
+        'type' => 'status',
         'page' => 'status.php',
         'wrap' => 1
     ),
-    # Uncomment or add more menu items as needed:
-    # Array(
-    #     'text' => 'Scoreboard - Content Setup',
-    #     'type' => 'content',
-    #     'page' => 'content.php',
-    #     'wrap' => 1
-    # ),
-    # Array(
-    #     'text' => 'Scoreboard - Output',
-    #     'type' => 'output',
-    #     'page' => 'output.php',
-    #     'wrap' => 1
-    # ),
     Array(
         'text' => 'Scoreboard - Help',
         'type' => 'help',
@@ -43,10 +35,7 @@ $menuEntries = Array(
 
 ##############################################################################
 # Display the menu entries for this plugin.
-#
-# It is expected that two variables are already set:
-# $plugin - contains the name of the current plugin directory/repoName
-# $menu - contains the name of the menu section/type
+
 foreach ($menuEntries as $entry)
 {
     if ($entry['type'] != $menu)
