@@ -1,31 +1,44 @@
 package ScoreboardOverlay;
-use base 'PixelOverlayModel';
+
 use strict;
 use warnings;
+use base 'PixelOverlayModel';
 use JSON;
 
 sub new {
-  my ($class, $name, $channel, $startCh, $w, $h, $args) = @_;
-  my $self = $class->SUPER::new($name,$channel,$startCh,$w,$h,$args);
-  bless $self, $class;
-  return $self;
+    my ($class, $name, $channel, $startChannel, $width, $height, $args) = @_;
+    my $self = $class->SUPER::new($name, $channel, $startChannel, $width, $height, $args);
+    bless($self, $class);
+    return $self;
 }
 
 sub renderFrame {
-  my ($self, $frameRef, $frameNum) = @_;
+    my ($self, $frameRef, $frameNum) = @_;
+    $self->ClearFrame($frameRef);
 
-  $self->ClearFrame($frameRef);
+    my $settingsFile = "/home/fpp/media/plugins/scoreboard/settings.json";
+    return unless -e $settingsFile;
 
-  # Draw test block and "TEST" text
-  $self->DrawText($frameRef, 0, 0, "TEST", 255,255,0);
+    open my $fh, '<', $settingsFile or return;
+    local $/;
+    my $json_text = <$fh>;
+    close $fh;
 
-  for my $y (0..10) {
-    for my $x (0..40) {
-      $self->SetPixel($frameRef, $x, $y, 0, 255, 0);
+    my $settings = eval { decode_json($json_text) };
+    return unless $settings;
+
+    my @lines = (
+        "M:$settings->{machine} O:$settings->{order}",
+        "P:$settings->{part} Q:$settings->{qty}",
+        "S:$settings->{setup_time} G:$settings->{setup_goal}",
+        "B:$settings->{bph} Std:$settings->{bph_std}"
+    );
+
+    my $y = 0;
+    foreach my $line (@lines) {
+        $self->DrawText($frameRef, 0, $y, $line, 'white', 'helvB08');
+        $y += 8;
     }
-  }
-
-  # Future: Read scoreboard settings.json here
 }
 
 1;
