@@ -10,7 +10,7 @@ $menuEntries = Array(
     Array(
         'text' => 'Scoreboard Config',
         'type' => 'status',
-        'page' => 'www/scoreboard.html',  // <--- this is your main UI
+        'page' => 'scoreboard.html',  // <--- this is your main UI
         'wrap' => 1
     ),
     Array(
