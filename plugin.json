@@ -1,18 +1,20 @@
 {
-  "plugin": {
-    "name": "Scoreboard",
-    "description": "Manufacturing scoreboard with bar gauges and Node-RED control",
-    "author": "Your Name",
-    "version": "1.0.0",
-    "python": "src/plugin.py",
-    "ui": "www/index.html",
-    "requiresFPPVersion": "5.6.0"
-    "pixelOverlayModels": [
-  {
-    "name": "ScoreboardOverlay",
-    "class": "ScoreboardOverlay"
-  }
-]
-
-  }
+  "name": "Scoreboard",
+  "shortName": "Scoreboard",
+  "author": "Zach Chambers",
+  "version": "1.0",
+  "desc": "Displays a scoreboard on LED matrix and web UI",
+  "active": true,
+  "pages": [
+    {
+      "name": "Scoreboard",
+      "file": "scoreboard.html"
+    }
+  ],
+  "pixelOverlayModels": [
+    {
+      "name": "ScoreboardOverlay",
+      "class": "ScoreboardOverlay"
+    }
+  ]
 }
