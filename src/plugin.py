@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import fppplugin
 import json
-import os
-from flask import request
+from flask import request, jsonify
 
 class ScoreboardPlugin(fppplugin.FPPPlugin):
     def __init__(self):
-        super(ScoreboardPlugin, self).__init__("scoreboard-plugin")
-        self.scoreboard_data = {
+        super().__init__("scoreboard-plugin")
+        self.data = {
             "machine": "",
             "order": "",
             "part": "",
@@ -20,31 +19,26 @@ class ScoreboardPlugin(fppplugin.FPPPlugin):
         }
 
     def onStart(self):
-        self.log.info("Scoreboard plugin started")
-        self.registerHttpEndpoint("/api/update", self.update_data, methods=['POST'])
-        self.registerHttpEndpoint("/api/status", self.get_data, methods=['GET'])
+        self.log.info("Starting Scoreboard Plugin")
+        self.registerHttpEndpoint("/api/update", self.handle_update, methods=["POST"])
+        self.registerHttpEndpoint("/api/status", self.handle_status, methods=["GET"])
         return True
 
-    def update_data(self):
+    def handle_update(self):
         try:
-            new_data = request.get_json()
-            self.scoreboard_data.update(new_data)
-            self.log.info(f"Updated Scoreboard Data: {self.scoreboard_data}")
+            new_data = request.get_json(force=True)
+            if not new_data:
+                return ("Invalid JSON", 400)
 
-            # Push data to matrix overlay
-            display_text = f"Machine: {self.scoreboard_data['machine']}  " \
-                           f"Order: {self.scoreboard_data['order']}  " \
-                           f"Qty: {self.scoreboard_data['currentQty']}/{self.scoreboard_data['orderQty']}"
-
-            os.system(f"/opt/fpp/scripts/sendText.sh '{display_text}'")
-
+            self.data.update(new_data)
+            self.log.info(f"Updated scoreboard data: {self.data}")
             return ("OK", 200)
         except Exception as e:
-            self.log.error(f"Error updating data: {str(e)}")
-            return (f"Error: {str(e)}", 400)
+            self.log.error(f"Update error: {str(e)}")
+            return (f"Error: {str(e)}", 500)
 
-    def get_data(self):
-        return (json.dumps(self.scoreboard_data), 200)
+    def handle_status(self):
+        return (json.dumps(self.data), 200)
 
 if __name__ == "__main__":
     plugin = ScoreboardPlugin()
