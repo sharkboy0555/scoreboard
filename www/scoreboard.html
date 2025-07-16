@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scoreboard Config</title>
+  <script>
+    async function loadSettings() {
+      const res = await fetch("status.php");
+      const json = await res.json();
+      if (json.settings) {
+        for (const [key, val] of Object.entries(json.settings)) {
+          const el = document.getElementById(key);
+          if (el) el.value = val;
+        }
+      }
+    }
+
+    async function saveSettings() {
+      const formData = new FormData(document.getElementById("scoreForm"));
+      await fetch("save.php", {
+        method: "POST",
+        body: formData,
+      });
+      alert("Settings saved!");
+    }
+
+    window.onload = loadSettings;
+  </script>
+</head>
+<body>
+  <h2>Scoreboard Configuration</h2>
+  <form id="scoreForm" onsubmit="saveSettings(); return false;">
+    <label>Machine #: <input name="machine" id="machine" /></label><br>
+    <label>Order #: <input name="order" id="order" /></label><br>
+    <label>Part #: <input name="part" id="part" /></label><br>
+    <label>Current Qty: <input name="currentQty" id="currentQty" /></label><br>
+    <label>Order Qty: <input name="orderQty" id="orderQty" /></label><br>
+    <label>Current Setup Time: <input name="setupTime" id="setupTime" /></label><br>
+    <label>Setup Time Goal: <input name="setupGoal" id="setupGoal" /></label><br>
+    <button type="submit">Save and Send</button>
+  </form>
+</body>
+</html>
