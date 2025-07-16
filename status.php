@@ -1,78 +1,47 @@
 <?php
-include_once "../../common.php";
-include_once "../../functions.php";
-include_once "../../plugin.php";
-
 $pluginName = "scoreboard-plugin";
+include_once("../../config.php");
+include_once("../../common.php");
+include_once("functions.php");
+
+echo "<div class='fppplugin'>\n";
+echo "<h2>Scoreboard Control</h2>\n";
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Scoreboard Plugin</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input {
-            width: 300px;
-            padding: 5px;
-        }
-        button {
-            margin-top: 15px;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Scoreboard Plugin</h1>
 
-    <form id="scoreboardForm">
-        <label>Machine #: <input type="text" name="machine"></label>
-        <label>Order #: <input type="text" name="order"></label>
-        <label>Part #: <input type="text" name="part"></label>
-        <label>Current Setup Time: <input type="text" name="currentSetup"></label>
-        <label>Setup Time Goal: <input type="text" name="setupGoal"></label>
-        <label>Current Qty: <input type="number" name="currentQty"></label>
-        <label>Order Qty: <input type="number" name="orderQty"></label>
-        <label>BPH Shift: <input type="number" name="bphShift"></label>
-        <label>BPH Standard: <input type="number" name="bphStandard"></label>
-        
-        <button type="button" onclick="sendUpdate()">Send to Matrix</button>
-    </form>
+<form id="scoreboard-form">
+  <label>Machine #: <input type="text" name="machine"></label><br>
+  <label>Order #: <input type="text" name="order"></label><br>
+  <label>Part #: <input type="text" name="part"></label><br>
+  <label>Current Setup Time: <input type="text" name="currentSetup"></label><br>
+  <label>Setup Goal: <input type="text" name="setupGoal"></label><br>
+  <label>Current Qty: <input type="number" name="currentQty"></label><br>
+  <label>Order Qty: <input type="number" name="orderQty"></label><br>
+  <label>BPH Shift: <input type="number" name="bphShift"></label><br>
+  <label>BPH Standard: <input type="number" name="bphStandard"></label><br><br>
 
-    <script>
-        function loadCurrentData() {
-            $.get('/plugin.php?plugin=scoreboard-plugin&page=api/status', function(data) {
-                let json = JSON.parse(data);
-                for (const key in json) {
-                    if ($(`[name=${key}]`).length) {
-                        $(`[name=${key}]`).val(json[key]);
-                    }
-                }
-            });
-        }
+  <button type="button" onclick="submitScoreboard()">Send to Matrix</button>
+</form>
 
-        function sendUpdate() {
-            const formData = {};
-            $('#scoreboardForm').serializeArray().forEach(e => formData[e.name] = e.value);
-            
-            $.ajax({
-                url: '/plugin.php?plugin=scoreboard-plugin&page=api/update',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function(res) {
-                    alert("Updated successfully");
-                },
-                error: function(err) {
-                    alert("Error sending data");
-                }
-            });
-        }
+<script>
+function submitScoreboard() {
+  const data = {};
+  const form = document.getElementById('scoreboard-form');
+  const inputs = form.querySelectorAll('input');
+  inputs.forEach(input => {
+    data[input.name] = input.value;
+  });
 
-        $(document).ready(loadCurrentData);
-    </script>
-</body>
-</html>
+  fetch('/plugin/scoreboard-plugin/api/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(res => {
+    if (res.ok) alert("Sent!");
+    else alert("Failed to send.");
+  });
+}
+</script>
+
+<?php
+echo "</div>\n";
+?>
