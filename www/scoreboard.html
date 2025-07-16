@@ -1,50 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Scoreboard Config</title>
-  <style>
-    body { font-family: Arial; padding: 20px; background: #f8f8f8; }
-    input { width: 200px; margin-bottom: 8px; }
-    label { display: block; margin-top: 10px; }
-    button { margin-top: 20px; padding: 10px 20px; }
-  </style>
-  <script>
-    async function loadSettings() {
-      const res = await fetch("status.php");
-      const json = await res.json();
-      if (json.settings) {
-        for (const [key, val] of Object.entries(json.settings)) {
-          const el = document.getElementById(key);
-          if (el) el.value = val;
-        }
-      }
-    }
-
-    async function saveSettings() {
-      const formData = new FormData(document.getElementById("scoreForm"));
-      await fetch("save.php", {
-        method: "POST",
-        body: formData
-      });
-      alert("Saved!");
-    }
-
-    window.onload = loadSettings;
-  </script>
+  <title>Scoreboard Plugin</title>
 </head>
 <body>
-  <h1>Scoreboard Layout</h1>
-  <form id="scoreForm" onsubmit="saveSettings(); return false;">
-    <label>Machine # <input name="machine" id="machine"></label>
-    <label>Order # <input name="order" id="order"></label>
-    <label>Part # <input name="part" id="part"></label>
-    <label>Setup Time <input name="setup" id="setup"></label>
-    <label>Setup Goal <input name="goal" id="goal"></label>
-    <label>Current Qty <input name="currentQty" id="currentQty"></label>
-    <label>Order Qty <input name="orderQty" id="orderQty"></label>
-    <label>BPH Shift <input name="bphShift" id="bphShift"></label>
-    <label>BPH Standard <input name="bphStandard" id="bphStandard"></label>
-    <button type="submit">Save and Update</button>
-  </form>
+  <h1>Scoreboard Plugin UI</h1>
+  <p>If you're seeing this, your plugin UI is working!</p>
+  <p>Next step: create a form to enter scoreboard data.</p>
 </body>
 </html>
+
+
