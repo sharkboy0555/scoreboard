@@ -1,19 +1,13 @@
 {
-  "name": "Scoreboard",
-  "shortName": "Scoreboard",
-  "author": "Zach Chambers",
-  "version": "1.0",
-  "desc": "Displays a scoreboard on LED matrix and UI",
-  "active": true,
-  "pages": [
-    {
-      "name": "Scoreboard",
-      "file": "scoreboard.html"
-    }
-  ],
+  "name":        "scoreboard",
+  "shortName":   "Scoreboard",
+  "author":      "Zach Chambers",
+  "version":     "1.0",
+  "desc":        "Custom scoreboard overlay",
+  "active":      true,
   "pixelOverlayModels": [
     {
-      "name": "ScoreboardOverlay",
+      "name":  "ScoreboardOverlay",
       "class": "ScoreboardOverlay"
     }
   ]
