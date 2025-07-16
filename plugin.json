@@ -1,8 +1,9 @@
+
 {
   "pluginName": "scoreboard",
+  "prettyName": "Scoreboard",
+  "desc": "Display manufacturing scoreboard overlay",
   "author": "Zach",
   "pluginVersion": "1.0",
-  "prettyName": "Scoreboard",
-  "desc": "Custom scoreboard overlay for FPP matrix display",
   "restartNeeded": false
 }
