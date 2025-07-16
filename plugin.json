@@ -7,5 +7,12 @@
     "python": "src/plugin.py",
     "ui": "www/index.html",
     "requiresFPPVersion": "5.6.0"
+    "pixelOverlayModels": [
+  {
+    "name": "ScoreboardOverlay",
+    "class": "ScoreboardOverlay"
+  }
+]
+
   }
 }
