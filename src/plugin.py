@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import fppplugin
 import json
+import os
 from flask import request
 
 class ScoreboardPlugin(fppplugin.FPPPlugin):
@@ -26,11 +27,17 @@ class ScoreboardPlugin(fppplugin.FPPPlugin):
 
     def update_data(self):
         try:
-            new_data = request.get_json(force=True)
-            if not new_data:
-                return ("No JSON data received", 400)
+            new_data = request.get_json()
             self.scoreboard_data.update(new_data)
-            self.log.info(f"Updated scoreboard data: {self.scoreboard_data}")
+            self.log.info(f"Updated Scoreboard Data: {self.scoreboard_data}")
+
+            # Push data to matrix overlay
+            display_text = f"Machine: {self.scoreboard_data['machine']}  " \
+                           f"Order: {self.scoreboard_data['order']}  " \
+                           f"Qty: {self.scoreboard_data['currentQty']}/{self.scoreboard_data['orderQty']}"
+
+            os.system(f"/opt/fpp/scripts/sendText.sh '{display_text}'")
+
             return ("OK", 200)
         except Exception as e:
             self.log.error(f"Error updating data: {str(e)}")
