@@ -1,0 +1,8 @@
+{
+  "effect": "plugin",
+  "plugin": "Scoreboard",
+  "model": "ScoreboardOverlay",
+  "args": {
+    "json": "/home/fpp/media/plugins/scoreboard/settings.json"
+  }
+}
