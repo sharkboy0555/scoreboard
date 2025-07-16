@@ -1,31 +1,31 @@
 package ScoreboardOverlay;
-
 use base 'PixelOverlayModel';
 use strict;
 use warnings;
+use JSON;
+
+sub new {
+  my ($class, $name, $channel, $startCh, $w, $h, $args) = @_;
+  my $self = $class->SUPER::new($name,$channel,$startCh,$w,$h,$args);
+  bless $self, $class;
+  return $self;
+}
 
 sub renderFrame {
-    my ($self, $frameRef, $args) = @_;
+  my ($self, $frameRef, $frameNum) = @_;
 
-    # Log to confirm the overlay is being called
-    $main::log->info("ScoreboardOverlay: renderFrame called");
+  $self->ClearFrame($frameRef);
 
-    # Optional: Display args if passed
-    if (defined $args) {
-        $main::log->info("ScoreboardOverlay Args: " . $args);
+  # Draw test block and "TEST" text
+  $self->DrawText($frameRef, 0, 0, "TEST", 255,255,0);
+
+  for my $y (0..10) {
+    for my $x (0..40) {
+      $self->SetPixel($frameRef, $x, $y, 0, 255, 0);
     }
+  }
 
-    # Draw a test rectangle (top-left corner)
-    for my $y (0 .. 10) {
-        for my $x (0 .. 40) {
-            $self->SetPixel($frameRef, $x, $y, 0, 255, 0);  # green box
-        }
-    }
-
-    # Draw test text
-    $self->DrawText($frameRef, 5, 20, "TEST", 255, 255, 0);  # yellow "TEST"
-
-    return;
+  # Future: Read scoreboard settings.json here
 }
 
 1;
