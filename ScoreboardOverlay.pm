@@ -1,33 +1,31 @@
 package ScoreboardOverlay;
 
+use base 'PixelOverlayModel';
 use strict;
 use warnings;
-use base 'PixelOverlayModel';
-use JSON;
-
-sub new {
-    my ($class, $name, $channel, $startChannel, $width, $height, $args) = @_;
-    my $self = $class->SUPER::new($name, $channel, $startChannel, $width, $height, $args);
-    bless($self, $class);
-    return $self;
-}
 
 sub renderFrame {
-    my ($self, $frameRef, $frameNum) = @_;
-    $self->ClearFrame($frameRef);
+    my ($self, $frameRef, $args) = @_;
 
-    my $settingsFile = "/home/fpp/media/plugins/scoreboard/settings.json";
-    return unless -e $settingsFile;
+    # Log to confirm the overlay is being called
+    $main::log->info("ScoreboardOverlay: renderFrame called");
 
-    open my $fh, '<', $settingsFile or return;
-    local $/;
-    my $json_text = <$fh>;
-    close $fh;
+    # Optional: Display args if passed
+    if (defined $args) {
+        $main::log->info("ScoreboardOverlay Args: " . $args);
+    }
 
-    my $settings = eval { decode_json($json_text) };
-    return unless $settings;
+    # Draw a test rectangle (top-left corner)
+    for my $y (0 .. 10) {
+        for my $x (0 .. 40) {
+            $self->SetPixel($frameRef, $x, $y, 0, 255, 0);  # green box
+        }
+    }
 
-    # Prepare scoreboard text lines
-    my @lines = (
-        "M:$settings->{machine} O:$settings->{order}",
-        "P:$settings->
+    # Draw test text
+    $self->DrawText($frameRef, 5, 20, "TEST", 255, 255, 0);  # yellow "TEST"
+
+    return;
+}
+
+1;
