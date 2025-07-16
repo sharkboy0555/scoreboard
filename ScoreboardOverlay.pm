@@ -1,23 +1,29 @@
-package ScoreboardOverlay;
-
-use strict;
-use warnings;
-use base 'PixelOverlayModel';
-
-sub new {
-    my ($class, $name, $channel, $startChannel, $width, $height, $args) = @_;
-    my $self = $class->SUPER::new($name, $channel, $startChannel, $width, $height, $args);
-    bless($self, $class);
-    return $self;
-}
-
 sub renderFrame {
     my ($self, $frameRef, $frameNum) = @_;
-
-    # Example: Just render static text centered
     $self->ClearFrame($frameRef);
-    $self->DrawText($frameRef, 5, 5, 'Score', 255, 255, 0);
-    $self->DrawText($frameRef, 5, 20, '123-456', 0, 255, 0);
-}
 
-1;
+    my $settingsFile = "/home/fpp/media/plugins/scoreboard/settings.json";
+    return unless -e $settingsFile;
+
+    my $json = do {
+        open my $fh, '<', $settingsFile or return;
+        local $/;
+        <$fh>;
+    };
+    my $settings = eval { JSON::decode_json($json) };
+    return unless $settings;
+
+    my @lines = (
+        "M: $settings->{machine}  O: $settings->{order}",
+        "P: $settings->{part}",
+        "Setup: $settings->{setup}/$settings->{goal}",
+        "Qty: $settings->{currentQty}/$settings->{orderQty}",
+        "BPH: $settings->{bphShift}/$settings->{bphStandard}"
+    );
+
+    my $y = 0;
+    for my $line (@lines) {
+        $self->DrawText($frameRef, 0, $y, $line, 0, 255, 0);
+        $y += 12;
+    }
+}
