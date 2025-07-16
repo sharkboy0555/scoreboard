@@ -9,7 +9,7 @@
 
 $menuEntries = Array(
     Array(
-        'text' => 'Scoreboard - Status',
+        'text' => 'Scoreboard Config',
         'type' => 'status',
         'page' => 'status.php',
         'wrap' => 1
