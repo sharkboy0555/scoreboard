@@ -1,14 +1,8 @@
 {
-  "name":        "scoreboard",
-  "shortName":   "Scoreboard",
-  "author":      "Zach Chambers",
-  "version":     "1.0",
-  "desc":        "Custom scoreboard overlay",
-  "active":      true,
-  "pixelOverlayModels": [
-    {
-      "name":  "ScoreboardOverlay",
-      "class": "ScoreboardOverlay"
-    }
-  ]
+  "pluginName": "scoreboard",
+  "author": "Zach",
+  "pluginVersion": "1.0",
+  "prettyName": "Scoreboard",
+  "desc": "Custom scoreboard overlay for FPP matrix display",
+  "restartNeeded": false
 }
