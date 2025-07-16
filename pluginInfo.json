@@ -1,11 +1,11 @@
 {
-  "repoName": "scoreboard-plugin",
+  "repoName": "scoreboard",
   "name": "Scoreboard",
   "author": "Your Name",
   "description": "Manufacturing scoreboard with bar gauges and Node-RED control",
-  "homeURL": "https://github.com/sharkboy0555/scoreboard-plugin",
-  "srcURL": "https://github.com/sharkboy0555/scoreboard-plugin.git",
-  "bugURL": "https://github.com/sharkboy0555/scoreboard-plugin/issues",
+  "homeURL": "https://github.com/sharkboy0555/scoreboard",
+  "srcURL": "https://github.com/sharkboy0555/scoreboard.git",
+  "bugURL": "https://github.com/sharkboy0555/scoreboard/issues",
   "versions": [
     {
       "minFPPVersion": "5.6.0",
